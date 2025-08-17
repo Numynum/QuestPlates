@@ -1,0 +1,1 @@
+This is a personal copy, not intended for pull requests, and might not work on anyone else's game.
