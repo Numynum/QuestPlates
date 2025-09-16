@@ -79,6 +79,7 @@ local QuestLogIndex = {} -- [questName] = questLogIndex, this is to "quickly" lo
 function GetQuestProgress(unitID)
     -- TODO: Refactor this mess
     local tooltipData = C_TooltipInfo.GetUnit(unitID)
+    if not tooltipData then return end
     local progressGlob -- concatenated glob of quest text
     local questType -- 1 for player, 2 for group
     local objectiveCount = 0
