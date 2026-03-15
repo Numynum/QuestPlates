@@ -10,6 +10,15 @@ local GUIDs = {}            -- [guid] = plate
 
 local LibGetFrame = LibStub('LibGetFrame-1.0')
 
+local function getPlate(unit)
+    local plate = LibGetFrame.GetUnitNameplate(unit)
+    if not plate:IsVisible() then
+        return C_NamePlate.GetNamePlateForUnit(unit)
+    end
+    
+    return plate
+end
+
 function addon:GetActiveNameplates()
     return ActiveNameplates
 end
@@ -23,7 +32,7 @@ function addon:GetFrameFromNameplate(plate)
 end
 
 function addon:GetPlateForUnit(unitID)
-    local plate = LibGetFrame.GetUnitNameplate(unitID)
+    local plate = getPlate(unitID)
     local f = plate and Nameplates[plate]
 
     return plate, f
@@ -54,12 +63,14 @@ end
 
 function E:NAME_PLATE_UNIT_ADDED(unitID)
     RunNextFrame(function()
-        local plate = LibGetFrame.GetUnitNameplate(unitID)
+        local plate = getPlate(unitID)
+        if not plate then return end
         local f = getNameplateFrame(plate)
         ActiveNameplates[plate] = f
         f._unitID = unitID
 
         local guid = UnitGUID(unitID)
+        if issecretvalue(guid) then return end
         if guid then
             GUIDs[guid] = plate
         end
@@ -69,11 +80,12 @@ function E:NAME_PLATE_UNIT_ADDED(unitID)
 end
 
 function E:NAME_PLATE_UNIT_REMOVED(unitID)
-    local plate = LibGetFrame.GetUnitNameplate(unitID)
+    local plate = getPlate(unitID)
     local f = Nameplates[plate]
     ActiveNameplates[plate] = nil
 
     local guid = UnitGUID(unitID)
+    if issecretvalue(guid) then return end
     if guid then
         GUIDs[guid] = nil
     end

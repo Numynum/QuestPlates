@@ -37,7 +37,7 @@ do
     function E:PLAYER_LOGIN()
         local uiMapID = C_Map.GetBestMapForUnit('player')
         if uiMapID then
-            for _, task in pairs(C_TaskQuest.GetQuestsForPlayerByMapID(uiMapID) or {}) do
+            for _, task in pairs(C_TaskQuest.GetQuestsOnMap(uiMapID) or {}) do
                 if task.inProgress then
                     -- track active world quests
                     local questID = task.questID

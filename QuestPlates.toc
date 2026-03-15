@@ -1,4 +1,4 @@
-## Interface: 110200
+## Interface: 120000
 ## Title: QuestPlates
 ## Notes: Adds quest progress to nameplates
 ## Version: development-copy
